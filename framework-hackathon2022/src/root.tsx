@@ -1,6 +1,7 @@
-import React from 'react';
-import Canvas from "./Components/Canvas";
+import React, {useEffect} from 'react';
 import styled from "@emotion/styled";
+import { Canvas } from "./Components";
+import {get, set} from "./Libs";
 
 const CenterWrap = styled.div`
   position: relative;
@@ -79,6 +80,15 @@ function Root() {
     //   lastRecNum = recNum;
     // })
   }
+
+  useEffect( () => {
+    const doDataStuff = async () => {
+      await set('me', 'test data '+Math.random())
+      await get('me')
+    }
+
+    doDataStuff().catch(console.error);
+  })
 
   return (
     <CenterWrap>

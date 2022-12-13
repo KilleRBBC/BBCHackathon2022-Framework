@@ -13,7 +13,7 @@ interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {
   draw: (context: CanvasRenderingContext2D, frameCount: number) => void,
   height?: number,
   width?: number,
-  refreshInterval?: number;
+  refreshInterval: number;
 }
 
 const Canvas: FunctionComponent<CanvasProps> = ({draw, height = 400, width = 400, refreshInterval = 1, ...rest}: CanvasProps) => {
@@ -24,6 +24,6 @@ const Canvas: FunctionComponent<CanvasProps> = ({draw, height = 400, width = 400
   )
 }
 
-export default Canvas;
+export { Canvas };
 
 
