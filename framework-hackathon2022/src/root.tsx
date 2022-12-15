@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import styled from "@emotion/styled";
 import {Canvas} from "./Components";
 import {get, set} from "./Libs";
-import {firework, makeFirework, moveFirework} from "./fireworks";
+import {drawFirework, firework, makeFirework} from "./Libs/fireworks";
 
 const CenterWrap = styled.div`
   position: relative;
@@ -17,49 +17,24 @@ const CenterWrap = styled.div`
   }
 `
 
+const fireworkCount = 10
+
 function Root() {
   const width = 1400;
   const height = 900;
   const fireworks: firework[] = [];
 
-  const drawArc = (ctx: CanvasRenderingContext2D, x: number, y: number, radius: number, above: boolean = false, startAngle = 0, endAngle = Math.PI, color = '#FFFFFF') => {
-    ctx.fillStyle = color;
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 5;
-    ctx.beginPath();
-    ctx.arc(x, y, radius, startAngle, endAngle, above);
-    ctx.stroke();
-    ctx.closePath();
-  }
-
-  const drawLine = (ctx: CanvasRenderingContext2D, [originX, originY]: number[], [endX, endY]: number[]) => {
-    ctx.fillStyle = '#ffffff';
-    ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(originX, originY)
-    ctx.lineTo(endX, endY);
-    ctx.stroke();
-  }
 
   let time = Date.now();
   const draw = (ctx: CanvasRenderingContext2D, frameCount: number) => {
-    // ctx.clearRect(0,0, width, height)
 
     for (const firework of fireworks) {
       if (frameCount < firework.startOffset) continue;
 
-
-      const blurFilter = ((frameCount - firework.startOffset) % 100) / 10 + 1
-      const lineAlpha = Math.min((10-blurFilter)/3, 1)
-      if (blurFilter === 1) {
-        moveFirework(firework, height, width)
-      }
-      ctx.filter = `blur(${blurFilter}px)`
-      drawArc(ctx, firework.x, firework.y, 5 * blurFilter, true, 0, Math.PI * 2, `rgba(100, 150, 255, ${lineAlpha})`)
+      drawFirework(firework, ctx, frameCount);
     }
 
-    ctx.filter = 'blur(1px)'
+    // ctx.filter = 'blur(1px)'
 
     // ctx.lineWidth = 4;
     // ctx.beginPath();
@@ -95,7 +70,7 @@ function Root() {
 
     doDataStuff().catch(console.error);
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < fireworkCount; i++) {
       fireworks.push(makeFirework(height, width))
     }
   })
