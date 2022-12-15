@@ -17,6 +17,8 @@ const CenterWrap = styled.div`
   }
 `
 
+const fireworkCount = 50
+
 function Root() {
   const width = 1400;
   const height = 900;
@@ -95,7 +97,7 @@ function Root() {
 
     doDataStuff().catch(console.error);
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < fireworkCount; i++) {
       fireworks.push(makeFirework(height, width))
     }
   })
