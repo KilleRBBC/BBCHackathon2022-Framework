@@ -21,7 +21,7 @@ const api = <T>({method, body, url, raw}: apiRequest): Promise<T> => {
   if (body) {
     requestOptions.body = body;
   }
-  if (url != 'login') {
+  if (url !== 'login') {
     requestOptions.headers = new Headers([['Authorization', token]]);
   }
 
